@@ -5,7 +5,6 @@
  * Copyright 2014-2016 Wolf9466    <https://github.com/OhGodAPet>
  * Copyright 2016      Jay D Dee   <jayddee246@gmail.com>
  * Copyright 2017-2018 XMR-Stak    <https://github.com/fireice-uk>, <https://github.com/psychocrypt>
- * Copyright 2018      Lee Clagett <https://github.com/vtnerd>
  * Copyright 2016-2018 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -22,18 +21,44 @@
  *   along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef XMRIG_CRYPTONIGHT_H
-#define XMRIG_CRYPTONIGHT_H
+#ifndef __SINGLEPOOLSTRATEGY_H__
+#define __SINGLEPOOLSTRATEGY_H__
 
 
-#include <stddef.h>
-#include <stdint.h>
+#include "common/interfaces/IClientListener.h"
+#include "common/interfaces/IStrategy.h"
 
 
-struct cryptonight_ctx {
-    alignas(16) uint8_t state[224];
-    alignas(16) uint8_t *memory;
+class Client;
+class IStrategyListener;
+class Url;
+
+
+class SinglePoolStrategy : public IStrategy, public IClientListener
+{
+public:
+    SinglePoolStrategy(const Pool &pool, int retryPause, int retries, IStrategyListener *listener, bool quiet = false);
+    ~SinglePoolStrategy();
+
+public:
+    inline bool isActive() const override  { return m_active; }
+
+    int64_t submit(const JobResult &result) override;
+    void connect() override;
+    void resume() override;
+    void stop() override;
+    void tick(uint64_t now) override;
+
+protected:
+    void onClose(Client *client, int failures) override;
+    void onJobReceived(Client *client, const Job &job) override;
+    void onLoginSuccess(Client *client) override;
+    void onResultAccepted(Client *client, const SubmitResult &result, const char *error) override;
+
+private:
+    bool m_active;
+    Client *m_client;
+    IStrategyListener *m_listener;
 };
 
-
-#endif /* XMRIG_CRYPTONIGHT_H */
+#endif /* __SINGLEPOOLSTRATEGY_H__ */

@@ -5,7 +5,6 @@
  * Copyright 2014-2016 Wolf9466    <https://github.com/OhGodAPet>
  * Copyright 2016      Jay D Dee   <jayddee246@gmail.com>
  * Copyright 2017-2018 XMR-Stak    <https://github.com/fireice-uk>, <https://github.com/psychocrypt>
- * Copyright 2018      Lee Clagett <https://github.com/vtnerd>
  * Copyright 2016-2018 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -22,18 +21,75 @@
  *   along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef XMRIG_CRYPTONIGHT_H
-#define XMRIG_CRYPTONIGHT_H
+#ifndef __STORAGE_H__
+#define __STORAGE_H__
 
 
-#include <stddef.h>
-#include <stdint.h>
+#include <assert.h>
+#include <map>
 
 
-struct cryptonight_ctx {
-    alignas(16) uint8_t state[224];
-    alignas(16) uint8_t *memory;
+namespace xmrig {
+
+
+template <class TYPE>
+class Storage
+{
+public:
+    inline Storage() :
+        m_counter(0)
+    {
+    }
+
+
+    inline uintptr_t add(TYPE *ptr)
+    {
+        m_data[m_counter] = ptr;
+
+        return m_counter++;
+    }
+
+
+    inline static void *ptr(uintptr_t id) { return reinterpret_cast<void *>(id); }
+
+
+    inline TYPE *get(void *id) const { return get(reinterpret_cast<uintptr_t>(id)); }
+    inline TYPE *get(uintptr_t id) const
+    {
+        assert(m_data.count(id) > 0);
+
+        if (m_data.count(id) == 0) {
+            return nullptr;
+        }
+
+        return m_data.at(id);
+    }
+
+
+    inline void remove(void *id) { remove(reinterpret_cast<uintptr_t>(id)); }
+    inline void remove(uintptr_t id)
+    {
+        TYPE *obj = get(id);
+        if (obj == nullptr) {
+            return;
+        }
+
+        auto it = m_data.find(id);
+        if (it != m_data.end()) {
+            m_data.erase(it);
+        }
+
+        delete obj;
+    }
+
+
+private:
+    std::map<uintptr_t, TYPE *> m_data;
+    uint64_t m_counter;
 };
 
 
-#endif /* XMRIG_CRYPTONIGHT_H */
+} /* namespace xmrig */
+
+
+#endif /* __STORAGE_H__ */

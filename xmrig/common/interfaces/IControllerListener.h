@@ -5,7 +5,6 @@
  * Copyright 2014-2016 Wolf9466    <https://github.com/OhGodAPet>
  * Copyright 2016      Jay D Dee   <jayddee246@gmail.com>
  * Copyright 2017-2018 XMR-Stak    <https://github.com/fireice-uk>, <https://github.com/psychocrypt>
- * Copyright 2018      Lee Clagett <https://github.com/vtnerd>
  * Copyright 2016-2018 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -22,18 +21,26 @@
  *   along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef XMRIG_CRYPTONIGHT_H
-#define XMRIG_CRYPTONIGHT_H
+#ifndef XMRIG_ICONTROLLERLISTENER_H
+#define XMRIG_ICONTROLLERLISTENER_H
 
 
-#include <stddef.h>
-#include <stdint.h>
+namespace xmrig {
 
 
-struct cryptonight_ctx {
-    alignas(16) uint8_t state[224];
-    alignas(16) uint8_t *memory;
+class Config;
+
+
+class IControllerListener
+{
+public:
+    virtual ~IControllerListener() {}
+
+    virtual void onConfigChanged(Config *config, Config *previousConfig) = 0;
 };
 
 
-#endif /* XMRIG_CRYPTONIGHT_H */
+} /* namespace xmrig */
+
+
+#endif // XMRIG_ICONTROLLERLISTENER_H

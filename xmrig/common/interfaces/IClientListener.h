@@ -4,9 +4,8 @@
  * Copyright 2014      Lucas Jones <https://github.com/lucasjones>
  * Copyright 2014-2016 Wolf9466    <https://github.com/OhGodAPet>
  * Copyright 2016      Jay D Dee   <jayddee246@gmail.com>
- * Copyright 2017-2018 XMR-Stak    <https://github.com/fireice-uk>, <https://github.com/psychocrypt>
- * Copyright 2018      Lee Clagett <https://github.com/vtnerd>
- * Copyright 2016-2018 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
+ * Copyright 2016-2017 XMRig       <support@xmrig.com>
+ *
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -22,18 +21,28 @@
  *   along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef XMRIG_CRYPTONIGHT_H
-#define XMRIG_CRYPTONIGHT_H
+#ifndef __ICLIENTLISTENER_H__
+#define __ICLIENTLISTENER_H__
 
 
-#include <stddef.h>
 #include <stdint.h>
 
 
-struct cryptonight_ctx {
-    alignas(16) uint8_t state[224];
-    alignas(16) uint8_t *memory;
+class Client;
+class Job;
+class SubmitResult;
+
+
+class IClientListener
+{
+public:
+    virtual ~IClientListener() {}
+
+    virtual void onClose(Client *client, int failures)                                           = 0;
+    virtual void onJobReceived(Client *client, const Job &job)                                   = 0;
+    virtual void onLoginSuccess(Client *client)                                                  = 0;
+    virtual void onResultAccepted(Client *client, const SubmitResult &result, const char *error) = 0;
 };
 
 
-#endif /* XMRIG_CRYPTONIGHT_H */
+#endif // __ICLIENTLISTENER_H__

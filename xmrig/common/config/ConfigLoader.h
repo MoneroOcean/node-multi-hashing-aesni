@@ -5,7 +5,6 @@
  * Copyright 2014-2016 Wolf9466    <https://github.com/OhGodAPet>
  * Copyright 2016      Jay D Dee   <jayddee246@gmail.com>
  * Copyright 2017-2018 XMR-Stak    <https://github.com/fireice-uk>, <https://github.com/psychocrypt>
- * Copyright 2018      Lee Clagett <https://github.com/vtnerd>
  * Copyright 2016-2018 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -22,18 +21,51 @@
  *   along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef XMRIG_CRYPTONIGHT_H
-#define XMRIG_CRYPTONIGHT_H
+#ifndef __CONFIGLOADER_H__
+#define __CONFIGLOADER_H__
 
 
-#include <stddef.h>
 #include <stdint.h>
 
 
-struct cryptonight_ctx {
-    alignas(16) uint8_t state[224];
-    alignas(16) uint8_t *memory;
+#include "rapidjson/fwd.h"
+
+
+struct option;
+
+
+namespace xmrig {
+
+
+class ConfigWatcher;
+class IConfigCreator;
+class IWatcherListener;
+class IConfig;
+
+
+class ConfigLoader
+{
+public:
+    static bool loadFromFile(IConfig *config, const char *fileName);
+    static bool loadFromJSON(IConfig *config, const char *json);
+    static bool loadFromJSON(IConfig *config, const rapidjson::Document &doc);
+    static bool reload(IConfig *oldConfig, const char *json);
+    static IConfig *load(int argc, char **argv, IConfigCreator *creator, IWatcherListener *listener);
+    static void release();
+
+private:
+    static bool getJSON(const char *fileName, rapidjson::Document &doc);
+    static bool parseArg(IConfig *config, int key, const char *arg);
+    static void parseJSON(IConfig *config, const struct option *option, const rapidjson::Value &object);
+    static void showUsage();
+    static void showVersion();
+
+    static ConfigWatcher *m_watcher;
+    static IConfigCreator *m_creator;
+    static IWatcherListener *m_listener;
 };
 
 
-#endif /* XMRIG_CRYPTONIGHT_H */
+} /* namespace xmrig */
+
+#endif /* __CONFIGLOADER_H__ */

@@ -5,8 +5,8 @@
  * Copyright 2014-2016 Wolf9466    <https://github.com/OhGodAPet>
  * Copyright 2016      Jay D Dee   <jayddee246@gmail.com>
  * Copyright 2017-2018 XMR-Stak    <https://github.com/fireice-uk>, <https://github.com/psychocrypt>
- * Copyright 2018      Lee Clagett <https://github.com/vtnerd>
  * Copyright 2016-2018 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
+ *
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -22,18 +22,32 @@
  *   along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef XMRIG_CRYPTONIGHT_H
-#define XMRIG_CRYPTONIGHT_H
+#ifndef __HTTPREPLY_H__
+#define __HTTPREPLY_H__
 
 
-#include <stddef.h>
 #include <stdint.h>
 
 
-struct cryptonight_ctx {
-    alignas(16) uint8_t state[224];
-    alignas(16) uint8_t *memory;
+namespace xmrig {
+
+
+class HttpReply
+{
+public:
+    HttpReply() :
+        buf(nullptr),
+        status(200),
+        size(0)
+    {}
+
+    char *buf;
+    int status;
+    size_t size;
 };
 
 
-#endif /* XMRIG_CRYPTONIGHT_H */
+} /* namespace xmrig */
+
+
+#endif /* __HTTPREPLY_H__ */

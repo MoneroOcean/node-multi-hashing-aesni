@@ -5,7 +5,6 @@
  * Copyright 2014-2016 Wolf9466    <https://github.com/OhGodAPet>
  * Copyright 2016      Jay D Dee   <jayddee246@gmail.com>
  * Copyright 2017-2018 XMR-Stak    <https://github.com/fireice-uk>, <https://github.com/psychocrypt>
- * Copyright 2018      Lee Clagett <https://github.com/vtnerd>
  * Copyright 2016-2018 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -22,18 +21,20 @@
  *   along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef XMRIG_CRYPTONIGHT_H
-#define XMRIG_CRYPTONIGHT_H
+#ifndef __SYSLOG_H__
+#define __SYSLOG_H__
 
 
-#include <stddef.h>
-#include <stdint.h>
+#include "common/interfaces/ILogBackend.h"
 
 
-struct cryptonight_ctx {
-    alignas(16) uint8_t state[224];
-    alignas(16) uint8_t *memory;
+class SysLog : public ILogBackend
+{
+public:
+    SysLog();
+
+    void message(Level level, const char *fmt, va_list args) override;
+    void text(const char *fmt, va_list args) override;
 };
 
-
-#endif /* XMRIG_CRYPTONIGHT_H */
+#endif /* __SYSLOG_BACKEND_H__ */

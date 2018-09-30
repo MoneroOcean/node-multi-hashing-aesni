@@ -5,7 +5,6 @@
  * Copyright 2014-2016 Wolf9466    <https://github.com/OhGodAPet>
  * Copyright 2016      Jay D Dee   <jayddee246@gmail.com>
  * Copyright 2017-2018 XMR-Stak    <https://github.com/fireice-uk>, <https://github.com/psychocrypt>
- * Copyright 2018      Lee Clagett <https://github.com/vtnerd>
  * Copyright 2016-2018 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -22,18 +21,27 @@
  *   along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef XMRIG_CRYPTONIGHT_H
-#define XMRIG_CRYPTONIGHT_H
+#include <string.h>
+#include <thread>
 
 
-#include <stddef.h>
-#include <stdint.h>
+#include "common/cpu/BasicCpuInfo.h"
 
 
-struct cryptonight_ctx {
-    alignas(16) uint8_t state[224];
-    alignas(16) uint8_t *memory;
-};
+xmrig::BasicCpuInfo::BasicCpuInfo() :
+    m_aes(false),
+    m_brand(),
+    m_threads(std::thread::hardware_concurrency())
+{
+    memcpy(m_brand, "Unknown", 7);
+
+#   if __ARM_FEATURE_CRYPTO
+    m_aes = true;
+#   endif
+}
 
 
-#endif /* XMRIG_CRYPTONIGHT_H */
+size_t xmrig::BasicCpuInfo::optimalThreadsCount(size_t memSize, int maxCpuUsage) const
+{
+    return threads();
+}
