@@ -243,7 +243,7 @@ static inline void cn_explode_scratchpad(const __m128i *input, __m128i *output)
     xin6 = _mm_load_si128(input + 10);
     xin7 = _mm_load_si128(input + 11);
 
-    if (ALGO == xmrig::CRYPTONIGHT_HEAVY) {
+    if (ALGO == xmrig::CRYPTONIGHT_HEAVY || ALGO == xmrig::CRYPTONIGHT_SUPERFAST) {
         for (size_t i = 0; i < 16; i++) {
             aes_round<SOFT_AES>(k0, &xin0, &xin1, &xin2, &xin3, &xin4, &xin5, &xin6, &xin7);
             aes_round<SOFT_AES>(k1, &xin0, &xin1, &xin2, &xin3, &xin4, &xin5, &xin6, &xin7);
@@ -323,12 +323,12 @@ static inline void cn_implode_scratchpad(const __m128i *input, __m128i *output)
         aes_round<SOFT_AES>(k8, &xout0, &xout1, &xout2, &xout3, &xout4, &xout5, &xout6, &xout7);
         aes_round<SOFT_AES>(k9, &xout0, &xout1, &xout2, &xout3, &xout4, &xout5, &xout6, &xout7);
 
-        if (ALGO == xmrig::CRYPTONIGHT_HEAVY) {
+        if (ALGO == xmrig::CRYPTONIGHT_HEAVY || ALGO == xmrig::CRYPTONIGHT_SUPERFAST) {
             mix_and_propagate(xout0, xout1, xout2, xout3, xout4, xout5, xout6, xout7);
         }
     }
 
-    if (ALGO == xmrig::CRYPTONIGHT_HEAVY) {
+    if (ALGO == xmrig::CRYPTONIGHT_HEAVY || ALGO == xmrig::CRYPTONIGHT_SUPERFAST) {
         for (size_t i = 0; i < MEM / sizeof(__m128i); i += 8) {
             xout0 = _mm_xor_si128(_mm_load_si128(input + i + 0), xout0);
             xout1 = _mm_xor_si128(_mm_load_si128(input + i + 1), xout1);
@@ -510,7 +510,7 @@ inline void cryptonight_single_hash(const uint8_t *__restrict__ input, size_t si
         ah0 ^= ch;
         idx0 = al0;
 
-        if (ALGO == xmrig::CRYPTONIGHT_HEAVY) {
+        if (ALGO == xmrig::CRYPTONIGHT_HEAVY || ALGO == xmrig::CRYPTONIGHT_SUPERFAST) {
             const int64x2_t x = vld1q_s64(reinterpret_cast<const int64_t *>(&l0[idx0 & MASK]));
             const int64_t n   = vgetq_lane_s64(x, 0);
             const int32_t d   = vgetq_lane_s32(x, 2);
@@ -518,7 +518,7 @@ inline void cryptonight_single_hash(const uint8_t *__restrict__ input, size_t si
 
             ((int64_t*)&l0[idx0 & MASK])[0] = n ^ q;
 
-            if (VARIANT == xmrig::VARIANT_XHV) {
+            if (VARIANT == xmrig::VARIANT_XHV || ALGO == xmrig::CRYPTONIGHT_SUPERFAST) {
                 idx0 = (~d) ^ q;
             }
             else {
@@ -641,7 +641,7 @@ inline void cryptonight_double_hash(const uint8_t *__restrict__ input, size_t si
         ah0 ^= ch;
         idx0 = al0;
 
-        if (ALGO == xmrig::CRYPTONIGHT_HEAVY) {           
+        if (ALGO == xmrig::CRYPTONIGHT_HEAVY || ALGO == xmrig::CRYPTONIGHT_SUPERFAST) {           
             const int64x2_t x = vld1q_s64(reinterpret_cast<const int64_t *>(&l0[idx0 & MASK]));
             const int64_t n   = vgetq_lane_s64(x, 0);
             const int32_t d   = vgetq_lane_s32(x, 2);
@@ -649,7 +649,7 @@ inline void cryptonight_double_hash(const uint8_t *__restrict__ input, size_t si
 
             ((int64_t*)&l0[idx0 & MASK])[0] = n ^ q;
 
-            if (VARIANT == xmrig::VARIANT_XHV) {
+            if (VARIANT == xmrig::VARIANT_XHV || ALGO == xmrig::CRYPTONIGHT_SUPERFAST) {
                 idx0 = (~d) ^ q;
             }
             else {
@@ -684,7 +684,7 @@ inline void cryptonight_double_hash(const uint8_t *__restrict__ input, size_t si
         ah1 ^= ch;
         idx1 = al1;
 
-        if (ALGO == xmrig::CRYPTONIGHT_HEAVY) {
+        if (ALGO == xmrig::CRYPTONIGHT_HEAVY || ALGO == xmrig::CRYPTONIGHT_SUPERFAST) {
             const int64x2_t x = vld1q_s64(reinterpret_cast<const int64_t *>(&l1[idx1 & MASK]));
             const int64_t n   = vgetq_lane_s64(x, 0);
             const int32_t d   = vgetq_lane_s32(x, 2);
@@ -692,7 +692,7 @@ inline void cryptonight_double_hash(const uint8_t *__restrict__ input, size_t si
 
             ((int64_t*)&l1[idx1 & MASK])[0] = n ^ q;
 
-            if (VARIANT == xmrig::VARIANT_XHV) {
+            if (VARIANT == xmrig::VARIANT_XHV || ALGO == xmrig::CRYPTONIGHT_SUPERFAST) {
                 idx1 = (~d) ^ q;
             }
             else {
