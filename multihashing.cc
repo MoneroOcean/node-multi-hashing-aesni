@@ -88,6 +88,33 @@ NAN_METHOD(cryptonight) {
     info.GetReturnValue().Set(returnValue);
 }
 
+NAN_METHOD(cryptonight_upx) {
+    if (info.Length() < 1) return THROW_ERROR_EXCEPTION("You must provide one argument.");
+
+    Local<Object> target = info[0]->ToObject();
+    if (!Buffer::HasInstance(target)) return THROW_ERROR_EXCEPTION("Argument 1 should be a buffer object.");
+
+    int variant = 0;
+
+    if (info.Length() >= 2) {
+        if (!info[1]->IsNumber()) return THROW_ERROR_EXCEPTION("Argument 2 should be a number");
+        variant = Nan::To<int>(info[1]).FromMaybe(0);
+    }
+
+    char output[32];
+    init_ctx();
+    switch (variant) {
+       case 0:  cryptonight_single_hash<xmrig::CRYPTONIGHT_UPX, SOFT_AES, xmrig::VARIANT_0>(reinterpret_cast<const uint8_t*>(Buffer::Data(target)), Buffer::Length(target), reinterpret_cast<uint8_t*>(output), &ctx);
+                break;
+       case 1:  cryptonight_single_hash<xmrig::CRYPTONIGHT_UPX, SOFT_AES, xmrig::VARIANT_1>(reinterpret_cast<const uint8_t*>(Buffer::Data(target)), Buffer::Length(target), reinterpret_cast<uint8_t*>(output), &ctx);
+                break;
+       default: cryptonight_single_hash<xmrig::CRYPTONIGHT_UPX, SOFT_AES, xmrig::VARIANT_1>(reinterpret_cast<const uint8_t*>(Buffer::Data(target)), Buffer::Length(target), reinterpret_cast<uint8_t*>(output), &ctx);
+    }
+
+    v8::Local<v8::Value> returnValue = Nan::CopyBuffer(output, 32).ToLocalChecked();
+    info.GetReturnValue().Set(returnValue);
+}
+
 NAN_METHOD(cryptonight_light) {
     if (info.Length() < 1) return THROW_ERROR_EXCEPTION("You must provide one argument.");
 
@@ -228,6 +255,52 @@ NAN_METHOD(cryptonight_async) {
     Nan::AsyncQueueWorker(new CCryptonightAsync(callback, Buffer::Data(target), Buffer::Length(target), variant));
 }
 
+
+class CCryptonightUPXAsync : public Nan::AsyncWorker {
+
+    private:
+
+        struct cryptonight_ctx* m_ctx;
+        const char* const m_input;
+        const uint32_t m_input_len;
+        const int m_variant;
+        char m_output[32];
+
+    public:
+
+        CCryptonightUPXAsync(Nan::Callback* const callback, const char* const input, const uint32_t input_len, const int variant)
+            : Nan::AsyncWorker(callback), m_ctx(static_cast<cryptonight_ctx *>(_mm_malloc(sizeof(cryptonight_ctx), 16))),
+              m_input(input), m_input_len(input_len), m_variant(variant) {
+            m_ctx->memory = static_cast<uint8_t *>(_mm_malloc(xmrig::CRYPTONIGHT_UPX_MEMORY, 4096));
+        }
+
+        ~CCryptonightUPXAsync() {
+            _mm_free(m_ctx->memory);
+            _mm_free(m_ctx);
+        }
+
+        void Execute () {
+            switch (m_variant) {
+                case 0:  cryptonight_single_hash<xmrig::CRYPTONIGHT_UPX, SOFT_AES, xmrig::VARIANT_0>(reinterpret_cast<const uint8_t*>(m_input), m_input_len, reinterpret_cast<uint8_t*>(m_output), &m_ctx);
+                         break;
+                case 1:  cryptonight_single_hash<xmrig::CRYPTONIGHT_UPX, SOFT_AES, xmrig::VARIANT_1>(reinterpret_cast<const uint8_t*>(m_input), m_input_len, reinterpret_cast<uint8_t*>(m_output), &m_ctx);
+                         break;
+                default: cryptonight_single_hash<xmrig::CRYPTONIGHT_UPX, SOFT_AES, xmrig::VARIANT_1>(reinterpret_cast<const uint8_t*>(m_input), m_input_len, reinterpret_cast<uint8_t*>(m_output), &m_ctx);
+            }
+        }
+
+        void HandleOKCallback () {
+            Nan::HandleScope scope;
+
+            v8::Local<v8::Value> argv[] = {
+                Nan::Null(),
+                v8::Local<v8::Value>(Nan::CopyBuffer(m_output, 32).ToLocalChecked())
+            };
+            callback->Call(2, argv, async_resource);
+        }
+};
+
+
 class CCryptonightLightAsync : public Nan::AsyncWorker {
 
     private:
@@ -271,6 +344,27 @@ class CCryptonightLightAsync : public Nan::AsyncWorker {
             callback->Call(2, argv, async_resource);
         }
 };
+
+NAN_METHOD(cryptonight_upx_async) {
+    if (info.Length() < 2) return THROW_ERROR_EXCEPTION("You must provide at least two arguments.");
+
+    Local<Object> target = info[0]->ToObject();
+    if (!Buffer::HasInstance(target)) return THROW_ERROR_EXCEPTION("Argument should be a buffer object.");
+
+    int variant = 0;
+
+    int callback_arg_num;
+    if (info.Length() >= 3) {
+        if (!info[1]->IsNumber()) return THROW_ERROR_EXCEPTION("Argument 2 should be a number");
+        variant = Nan::To<int>(info[1]).FromMaybe(0);
+        callback_arg_num = 2;
+    } else {
+        callback_arg_num = 1;
+    }
+
+    Callback *callback = new Nan::Callback(info[callback_arg_num].As<v8::Function>());
+    Nan::AsyncQueueWorker(new CCryptonightUPXAsync(callback, Buffer::Data(target), Buffer::Length(target), variant));
+}
 
 NAN_METHOD(cryptonight_light_async) {
     if (info.Length() < 2) return THROW_ERROR_EXCEPTION("You must provide at least two arguments.");
@@ -366,6 +460,8 @@ NAN_METHOD(cryptonight_heavy_async) {
 NAN_MODULE_INIT(init) {
     Nan::Set(target, Nan::New("cryptonight").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(cryptonight)).ToLocalChecked());
     Nan::Set(target, Nan::New("cryptonight_async").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(cryptonight_async)).ToLocalChecked());
+    Nan::Set(target, Nan::New("cryptonight_upx").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(cryptonight_upx)).ToLocalChecked());
+    Nan::Set(target, Nan::New("cryptonight_upx_async").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(cryptonight_upx_async)).ToLocalChecked());
     Nan::Set(target, Nan::New("cryptonight_light").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(cryptonight_light)).ToLocalChecked());
     Nan::Set(target, Nan::New("cryptonight_light_async").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(cryptonight_light_async)).ToLocalChecked());
     Nan::Set(target, Nan::New("cryptonight_heavy").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(cryptonight_heavy)).ToLocalChecked());
