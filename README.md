@@ -9,6 +9,7 @@ Algorithms
 * cryptonight (v0, v1, v2, xtl, msr, rto, xao)
 * cryptonight-light (v0, v1)
 * cryptonight-heavy (v0, xhv, tube)
+* cryptonight-upx
 
 Usage
 -----
@@ -24,7 +25,7 @@ So far this native Node.js addon can do the following hashing algos
 ```javascript
 var multiHashing = require('cryptonight-hashing');
 
-var algorithms = ['cryptonight', 'cryptonight_light', 'cryptonight_heavy' ];
+var algorithms = ['cryptonight', 'cryptonight_light', 'cryptonight_heavy', 'cryptonight-upx' ];
 
 var data = new Buffer("7000000001e980924e4e1109230383e66d62945ff8e749903bea4336755c00000000000051928aff1b4d72416173a8c3948159a09a73ac3bb556aa6bfbcad1a85da7f4c1d13350531e24031b939b9e2b", "hex");
 

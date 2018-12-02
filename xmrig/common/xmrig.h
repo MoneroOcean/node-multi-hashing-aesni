@@ -32,6 +32,7 @@ namespace xmrig
 enum Algo {
     INVALID_ALGO = -1,
     CRYPTONIGHT,       /* CryptoNight (Monero) */
+    CRYPTONIGHT_UPX,   /* CryptoNight-UPX (uPlexa) */
     CRYPTONIGHT_LITE,  /* CryptoNight-Lite (AEON) */
     CRYPTONIGHT_HEAVY  /* CryptoNight-Heavy (RYO) */
 };
