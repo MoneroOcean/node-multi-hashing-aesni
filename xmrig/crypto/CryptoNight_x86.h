@@ -491,7 +491,7 @@ struct cryptonightfast_ctx *ctx = alloca(sizeof(struct cryptonightfast_ctx));
         mul_sum_xor_dst(ctx->c, ctx->a,
                 &ctx->long_state[e2i(ctx->c) * AES_BLOCK_SIZE]);
         copy_block(ctx->b, ctx->c);
-	VARIANT1_2(uint8_t*)&ctx->long_state[e2i(ctx->c) * AES_BLOCK_SIZE];
+	
     }
 
     memcpy(ctx->text, ctx->state.init, INIT_SIZE_BYTE);
