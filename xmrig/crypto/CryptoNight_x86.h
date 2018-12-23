@@ -781,14 +781,14 @@ inline void cryptonight_double_hash(const uint8_t *__restrict__ input, size_t si
         ah0 ^= ch;
         idx0 = al0;
 
-        if (ALGO == xmrig::CRYPTONIGHT_HEAVY || ALGO == xmrig::CRYPTONIGHT_SUPERFAST) {
+        if (ALGO == xmrig::CRYPTONIGHT_HEAVY) {
             int64_t n = ((int64_t*)&l0[idx0 & MASK])[0];
             int32_t d = ((int32_t*)&l0[idx0 & MASK])[2];
             int64_t q = n / (d | 0x5);
 
             ((int64_t*)&l0[idx0 & MASK])[0] = n ^ q;
 
-            if (VARIANT == xmrig::VARIANT_XHV || ALGO == xmrig::CRYPTONIGHT_SUPERFAST) {
+            if (VARIANT == xmrig::VARIANT_XHV) {
                 d = ~d;
             }
 
@@ -822,14 +822,14 @@ inline void cryptonight_double_hash(const uint8_t *__restrict__ input, size_t si
         ah1 ^= ch;
         idx1 = al1;
 
-        if (ALGO == xmrig::CRYPTONIGHT_HEAVY || ALGO == xmrig::CRYPTONIGHT_SUPERFAST) {
+        if (ALGO == xmrig::CRYPTONIGHT_HEAVY) {
             int64_t n = ((int64_t*)&l1[idx1 & MASK])[0];
             int32_t d = ((int32_t*)&l1[idx1 & MASK])[2];
             int64_t q = n / (d | 0x5);
 
             ((int64_t*)&l1[idx1 & MASK])[0] = n ^ q;
 
-            if (VARIANT == xmrig::VARIANT_XHV || ALGO == xmrig::CRYPTONIGHT_SUPERFAST) {
+            if (VARIANT == xmrig::VARIANT_XHV) {
                 d = ~d;
             }
 
@@ -908,12 +908,12 @@ inline void cryptonight_double_hash(const uint8_t *__restrict__ input, size_t si
     a = _mm_xor_si128(a, _mm_set_epi64x(ch##part, cl##part)); \
     idx = _mm_cvtsi128_si64(a);                         \
                                                         \
-    if (ALGO == xmrig::CRYPTONIGHT_HEAVY || ALGO == xmrig::CRYPTONIGHT_SUPERFAST) {             \
+    if (ALGO == xmrig::CRYPTONIGHT_HEAVY) {             \
         int64_t n = ((int64_t*)&l[idx & MASK])[0];      \
         int32_t d = ((int32_t*)&l[idx & MASK])[2];      \
         int64_t q = n / (d | 0x5);                      \
         ((int64_t*)&l[idx & MASK])[0] = n ^ q;          \
-        if (VARIANT == xmrig::VARIANT_XHV || ALGO == xmrig::CRYPTONIGHT_SUPERFAST) {            \
+        if (VARIANT == xmrig::VARIANT_XHV) {            \
             d = ~d;                                     \
         }                                               \
                                                         \
