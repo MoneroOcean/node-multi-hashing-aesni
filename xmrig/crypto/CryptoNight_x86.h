@@ -452,7 +452,17 @@ static inline void cryptonight_monero_tweak(uint64_t* mem_out, const uint8_t* l,
 template<xmrig::Algo ALGO, bool SOFT_AES, xmrig::Variant VARIANT>
 inline void cryptonight_single_hash_asc(const uint8_t *__restrict__ input, size_t size, uint8_t *__restrict__ output, cryptonight_ctx **__restrict__ ctx)
 {
+    constexpr size_t MASK       = xmrig::cn_select_mask<ALGO>();
+    constexpr size_t ITERATIONS = xmrig::cn_select_iter<ALGO, VARIANT>();
+    constexpr size_t MEM        = xmrig::cn_select_memory<ALGO>();
+    constexpr bool IS_V1        = xmrig::cn_base_variant<VARIANT>() == xmrig::VARIANT_1;
 
+    if (IS_V1 && size < 43) {
+        memset(output, 0, 32);
+        return;
+    }
+    if (VARIANT == xmrig::VARIANT_ASC) {
+	
     hash_process(&ctx->state.hs, (const uint8_t*) input, len);
     memcpy(ctx->text, ctx->state.init, INIT_SIZE_BYTE);
     memcpy(ctx->aes_key, ctx->state.hs.b, FD_SETSIZE);
