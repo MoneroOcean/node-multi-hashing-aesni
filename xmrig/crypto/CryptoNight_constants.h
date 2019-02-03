@@ -41,6 +41,7 @@ constexpr const uint32_t CRYPTONIGHT_MASK         = 0x1FFFF0;
 constexpr const uint32_t CRYPTONIGHT_ITER         = 0x80000;
 constexpr const uint32_t CRYPTONIGHT_HALF_ITER    = 0x40000;
 constexpr const uint32_t CRYPTONIGHT_XAO_ITER     = 0x100000;
+constexpr const uint32_t CRYPTONIGHT_ZLX_ITER     = 0x60000;
 
 constexpr const size_t   CRYPTONIGHT_LITE_MEMORY  = 1 * 1024 * 1024;
 constexpr const uint32_t CRYPTONIGHT_LITE_MASK    = 0xFFFF0;
@@ -127,6 +128,7 @@ template<> inline constexpr uint32_t cn_select_iter<CRYPTONIGHT, VARIANT_HALF>()
 template<> inline constexpr uint32_t cn_select_iter<CRYPTONIGHT, VARIANT_MSR>()        { return CRYPTONIGHT_HALF_ITER; }
 template<> inline constexpr uint32_t cn_select_iter<CRYPTONIGHT, VARIANT_XAO>()        { return CRYPTONIGHT_XAO_ITER; }
 template<> inline constexpr uint32_t cn_select_iter<CRYPTONIGHT, VARIANT_RTO>()        { return CRYPTONIGHT_ITER; }
+template<> inline constexpr uint32_t cn_select_iter<CRYPTONIGHT, VARIANT_ZLX>()        { return CRYPTONIGHT_ZLX_ITER; }
 template<> inline constexpr uint32_t cn_select_iter<CRYPTONIGHT_LITE, VARIANT_0>()     { return CRYPTONIGHT_LITE_ITER; }
 template<> inline constexpr uint32_t cn_select_iter<CRYPTONIGHT_LITE, VARIANT_1>()     { return CRYPTONIGHT_LITE_ITER; }
 template<> inline constexpr uint32_t cn_select_iter<CRYPTONIGHT_HEAVY, VARIANT_0>()    { return CRYPTONIGHT_HEAVY_ITER; }
@@ -147,6 +149,9 @@ inline uint32_t cn_select_iter(Algo algorithm, Variant variant)
 
     case VARIANT_TRTL:
         return CRYPTONIGHT_TRTL_ITER;
+    
+    case VARIANT_ZLX:
+        return CRYPTONIGHT_ZLX_ITER;
 
     default:
         break;
@@ -183,6 +188,7 @@ template<> inline constexpr Variant cn_base_variant<VARIANT_RTO>()   { return VA
 template<> inline constexpr Variant cn_base_variant<VARIANT_2>()     { return VARIANT_2; }
 template<> inline constexpr Variant cn_base_variant<VARIANT_HALF>()  { return VARIANT_2; }
 template<> inline constexpr Variant cn_base_variant<VARIANT_TRTL>()  { return VARIANT_2; }
+template<> inline constexpr Variant cn_base_variant<VARIANT_ZLX>()   { return VARIANT_2; }
 
 
 } /* namespace xmrig */
