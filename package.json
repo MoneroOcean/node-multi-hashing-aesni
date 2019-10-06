@@ -1,25 +1,76 @@
 {
-    "name": "cryptonight-hashing",
-    "version": "3.0.5",
-    "main": "cryptonight-hashing",
-    "author": {
-        "name": "Multiple",
-        "email": "Check The Git Repo"
-    },
-    "license": "GPL-3.0-or-later",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/MoneroOcean/node-cryptonight-hashing.git"
-    },
-    "dependencies": {
-        "bindings": "*",
-        "nan":      "^2.8.0"
-    },
-    "keywords": [
-        "cryptonight",
-        "cryptonote",
-        "forknote",
-        "bytecoin",
-        "monero"
+  "_args": [
+    [
+      "https://github.com/MoneroOcean/node-cryptonight-hashing",
+      "/root"
     ]
+  ],
+  "_from": "git+https://github.com/MoneroOcean/node-cryptonight-hashing.git",
+  "_id": "cryptonight-hashing@14.0.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/cryptonight-hashing",
+  "_phantomChildren": {},
+  "_requested": {
+    "hosted": {
+      "directUrl": "https://raw.githubusercontent.com/MoneroOcean/node-cryptonight-hashing/master/package.json",
+      "gitUrl": "git://github.com/MoneroOcean/node-cryptonight-hashing.git",
+      "httpsUrl": "git+https://github.com/MoneroOcean/node-cryptonight-hashing.git",
+      "shortcut": "github:MoneroOcean/node-cryptonight-hashing",
+      "ssh": "git@github.com:MoneroOcean/node-cryptonight-hashing.git",
+      "sshUrl": "git+ssh://git@github.com/MoneroOcean/node-cryptonight-hashing.git",
+      "type": "github"
+    },
+    "name": null,
+    "raw": "https://github.com/MoneroOcean/node-cryptonight-hashing",
+    "rawSpec": "https://github.com/MoneroOcean/node-cryptonight-hashing",
+    "scope": null,
+    "spec": "git+https://github.com/MoneroOcean/node-cryptonight-hashing.git",
+    "type": "hosted"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "git+https://github.com/MoneroOcean/node-cryptonight-hashing.git#27b01e39cafef5beb7e30c1df1684c9ffe90ad5c",
+  "_shasum": "862a2cccb0dd80a3f817af8b85cfbe4683247ce9",
+  "_shrinkwrap": null,
+  "_spec": "https://github.com/MoneroOcean/node-cryptonight-hashing",
+  "_where": "/root",
+  "author": {
+    "email": "Check The Git Repo",
+    "name": "Multiple"
+  },
+  "bugs": {
+    "url": "https://github.com/MoneroOcean/node-cryptonight-hashing/issues"
+  },
+  "dependencies": {
+    "bindings": "*",
+    "nan": "^2.8.0"
+  },
+  "description": "node-cryptonight-hashing ===============",
+  "devDependencies": {},
+  "gitHead": "27b01e39cafef5beb7e30c1df1684c9ffe90ad5c",
+  "gypfile": true,
+  "homepage": "https://github.com/MoneroOcean/node-cryptonight-hashing#readme",
+  "keywords": [
+    "bytecoin",
+    "cryptonight",
+    "cryptonote",
+    "forknote",
+    "monero"
+  ],
+  "license": "GPL-3.0-or-later",
+  "main": "cryptonight-hashing",
+  "name": "cryptonight-hashing",
+  "optionalDependencies": {},
+  "readme": "node-cryptonight-hashing\n===============\n\nCryptonight hashing functions for node.js.\n\n\nAlgorithms\n----------\n* cryptonight (v0, v1, v2, r, half, xtl, msr, rto, xao, gpu, wow, rwz, zls, double)\n* cryptonight-light (v0, v1)\n* cryptonight-heavy (v0, xhv, tube)\n* cryptonight-pico (trtl)\n* RandomX (Wownero, Loki)\n\nInstalling locally and testing\n-----\n```\nnpm install https://github.com/MoneroOcean/node-cryptonight-hashing\nnode_modules/cryptonight-hashing/tests/run.sh\n```\n\nCredits\n-------\n* [XMrig](https://github.com/xmrig) - For advanced cryptonight implementations from [XMrig](https://github.com/xmrig/xmrig)\n* [SChernykh](https://github.com/SChernykh) - For PoW development and its integration help\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MoneroOcean/node-cryptonight-hashing.git"
+  },
+  "scripts": {
+    "install": "node-gyp rebuild"
+  },
+  "version": "14.0.0"
 }
