@@ -65,6 +65,7 @@ public:
         CN_PICO_0,     // "cn-pico"          CryptoNight Turtle (TRTL)
         RX_0,          // "rx/0"             RandomX (reference configuration).
         RX_WOW,        // "rx/wow"           RandomWOW (Wownero).
+        RX_ARQ,        // "rx/arq"           RandomARQ (Arqma).
         RX_LOKI,       // "rx/loki"          RandomXL (Loki).
         DEFYX,         // "defyx"            DefyX (Scala).
         AR2_CHUKWA,    // "argon2/chukwa"    Argon2id (Chukwa).

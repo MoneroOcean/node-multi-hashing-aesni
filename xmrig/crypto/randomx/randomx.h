@@ -175,10 +175,12 @@ struct RandomX_ConfigurationBase
 
 struct RandomX_ConfigurationMonero : public RandomX_ConfigurationBase {};
 struct RandomX_ConfigurationWownero : public RandomX_ConfigurationBase { RandomX_ConfigurationWownero(); };
+struct RandomX_ConfigurationARQ : public RandomX_ConfigurationBase { RandomX_ConfigurationARQ(); };
 struct RandomX_ConfigurationLoki : public RandomX_ConfigurationBase { RandomX_ConfigurationLoki(); };
 
 extern RandomX_ConfigurationMonero RandomX_MoneroConfig;
 extern RandomX_ConfigurationWownero RandomX_WowneroConfig;
+extern RandomX_ConfigurationWownero RandomX_ARQConfig;
 extern RandomX_ConfigurationLoki RandomX_LokiConfig;
 
 extern RandomX_ConfigurationBase RandomX_CurrentConfig;

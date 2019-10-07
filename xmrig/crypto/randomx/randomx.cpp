@@ -70,6 +70,36 @@ RandomX_ConfigurationWownero::RandomX_ConfigurationWownero()
 	fillAes4Rx4_Key[7] = fillAes4Rx4_Key[3];
 }
 
+RandomX_ConfigurationARQ::RandomX_ConfigurationARQ()
+{
+	ArgonSalt = "RandomARQ\x01";
+	ProgramIterations = 1024;
+	ProgramSize = 256;
+	ProgramCount = 8;
+	ArgonIterations = 3;
+	ArgonLanes = 1;
+	ScratchpadL2_Size = 131072;
+	ScratchpadL3_Size = 262144;
+
+RANDOMX_FREQ_IADD_RS = 16;
+RANDOMX_FREQ_IADD_M = 7;
+RANDOMX_FREQ_ISUB_R = 16;
+RANDOMX_FREQ_ISUB_M = 7;
+RANDOMX_FREQ_IMUL_R = 16;
+RANDOMX_FREQ_IMUL_M = 4;
+RANDOMX_FREQ_IMULH_R = 4;
+RANDOMX_FREQ_IMULH_M = 1;
+RANDOMX_FREQ_ISMULH_R = 4;
+RANDOMX_FREQ_ISMULH_M = 1;
+RANDOMX_FREQ_IMUL_RCP = 8;
+RANDOMX_FREQ_INEG_R = 2;
+RANDOMX_FREQ_IXOR_R = 15;
+RANDOMX_FREQ_IXOR_M = 5;
+RANDOMX_FREQ_IROR_R = 8;
+RANDOMX_FREQ_IROL_R = 2;
+RANDOMX_FREQ_ISWAP_R = 4;
+}
+
 RandomX_ConfigurationLoki::RandomX_ConfigurationLoki()
 {
 	ArgonIterations = 4;
@@ -247,6 +277,7 @@ void RandomX_ConfigurationBase::Apply()
 
 RandomX_ConfigurationMonero RandomX_MoneroConfig;
 RandomX_ConfigurationWownero RandomX_WowneroConfig;
+RandomX_ConfigurationARQ RandomX_ARQConfig;
 RandomX_ConfigurationLoki RandomX_LokiConfig;
 
 RandomX_ConfigurationBase RandomX_CurrentConfig;

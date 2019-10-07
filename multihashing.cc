@@ -11,14 +11,14 @@
 //#endif
 
 #include "crypto/common/VirtualMemory.h"
-#include "crypto/cn/CnCtx.h" 
+#include "crypto/cn/CnCtx.h"
 #include "crypto/cn/CnHash.h"
 #include "crypto/randomx/randomx.h"
 #include "crypto/defyx/defyx.h"
 
 extern "C" {
 #include "crypto/defyx/KangarooTwelve.h"
-} 
+}
 
 #if (defined(__AES__) && (__AES__ == 1)) || (defined(__ARM_FEATURE_CRYPTO) && (__ARM_FEATURE_CRYPTO == 1))
   #define SOFT_AES false
@@ -86,6 +86,9 @@ void init_rx(const uint8_t* seed_hash_data, xmrig::Algorithm::Id algo) {
                 break;
             case 18:
                 randomx_apply_config(RandomX_LokiConfig);
+                break;
+            case 19:
+                randomx_apply_config(RandomX_ARQConfig);
                 break;
             default:
                 throw std::domain_error("Unknown RandomX algo");
@@ -595,4 +598,3 @@ NAN_MODULE_INIT(init) {
 }
 
 NODE_MODULE(cryptonight, init)
-
