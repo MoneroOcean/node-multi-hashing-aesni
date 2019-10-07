@@ -48,6 +48,10 @@ enum randomx_flags {
   RANDOMX_FLAG_HARD_AES = 2,
   RANDOMX_FLAG_FULL_MEM = 4,
   RANDOMX_FLAG_JIT = 8,
+  RANDOMX_FLAG_SECURE = 16,
+  RANDOMX_FLAG_ARGON2_SSSE3 = 32,
+  RANDOMX_FLAG_ARGON2_AVX2 = 64,
+  RANDOMX_FLAG_ARGON2 = 96
 };
 
 
@@ -180,7 +184,7 @@ struct RandomX_ConfigurationLoki : public RandomX_ConfigurationBase { RandomX_Co
 
 extern RandomX_ConfigurationMonero RandomX_MoneroConfig;
 extern RandomX_ConfigurationWownero RandomX_WowneroConfig;
-extern RandomX_ConfigurationWownero RandomX_ARQConfig;
+extern RandomX_ConfigurationARQ RandomX_ARQConfig;
 extern RandomX_ConfigurationLoki RandomX_LokiConfig;
 
 extern RandomX_ConfigurationBase RandomX_CurrentConfig;
