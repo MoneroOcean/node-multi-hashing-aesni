@@ -289,7 +289,7 @@ extern "C" {
 
 		try {
 			cache = new randomx_cache();
-			cache->argonImpl = randomx::selectArgonImpl(flags);
+		
 			switch (flags & (RANDOMX_FLAG_JIT | RANDOMX_FLAG_LARGE_PAGES)) {
 				case RANDOMX_FLAG_DEFAULT:
 					cache->dealloc = &randomx::deallocCache<randomx::DefaultAllocator>;
