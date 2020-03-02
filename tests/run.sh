@@ -29,6 +29,7 @@ node test_rx_defyx.js
 node test_rx_wow.js
 node test_rx_loki.js
 node test_rx_v.js
+node test_rx_keva.js
 node test_rx_switch.js
 node test_ar2_chukwa.js
 node test_ar2_wrkz.js
@@ -41,6 +42,7 @@ node test_perf_gpu.js
 node test_perf_rx_defyx.js
 node test_perf_rx_wow.js
 node test_perf_rx_loki.js
+node test_perf_rx_keva.js
 node test_perf_rx_switch.js
 node test_perf_pico.js
 node test_perf_double.js

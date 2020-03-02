@@ -10,7 +10,7 @@ Algorithms
 * cryptonight-light (v0, v1)
 * cryptonight-heavy (v0, xhv, tube)
 * cryptonight-pico (trtl)
-* RandomX (Wownero, Loki, Arqma, V)
+* RandomX (Wownero, Loki, Arqma, V, Keva)
 * DefyX (Scala)
 * KangarooTwelve (AEON)
 * cuckaroo29s, cuckaroo29v 

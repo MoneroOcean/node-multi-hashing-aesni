@@ -99,6 +99,9 @@ void init_rx(const uint8_t* seed_hash_data, xmrig::Algorithm::Id algo) {
             case 19:
                 randomx_apply_config(RandomX_VConfig);
                 break;
+            case 20:
+                randomx_apply_config(RandomX_KevaConfig);
+                break;
             default:
                 throw std::domain_error("Unknown RandomX algo");
         }
