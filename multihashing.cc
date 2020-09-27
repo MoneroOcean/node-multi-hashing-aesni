@@ -202,7 +202,7 @@ static xmrig::cn_hash_fun get_cn_fn(const int algo) {
     case 15: return FNA(CN_ZLS);
     case 16: return FNA(CN_DOUBLE);
     case 17: return FNA(CN_CCX);
-    case 17: return FNA(CN_CACHE_HASH);
+    case 18: return FNA(CN_CACHE_HASH);
     default: return FN(CN_R);
   }
 }
