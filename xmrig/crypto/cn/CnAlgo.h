@@ -123,6 +123,10 @@ public:
             return 0x1FFFC0;
         }
 #       endif
+        
+       if (algo == Algorithm::CN_CACHE_HASH) {
+           return 0x1FFFA0;
+       }
 
         return ((memory(algo) - 1) / 16) * 16;
     }
@@ -140,7 +144,6 @@ public:
         case Algorithm::CN_HEAVY_XHV:
 #       endif
         case Algorithm::CN_CCX:
-            return Algorithm::CN_0;
         case Algorithm::CN_CACHE_HASH:
             return Algorithm::CN_0;
 
@@ -191,7 +194,7 @@ template<> constexpr inline Algorithm::Id CnAlgo<Algorithm::CN_LITE_0>::base() c
 template<> constexpr inline Algorithm::Id CnAlgo<Algorithm::CN_HEAVY_0>::base() const       { return Algorithm::CN_0; }
 template<> constexpr inline Algorithm::Id CnAlgo<Algorithm::CN_HEAVY_XHV>::base() const     { return Algorithm::CN_0; }
 template<> constexpr inline Algorithm::Id CnAlgo<Algorithm::CN_CCX>::base() const           { return Algorithm::CN_0; }
-template<> constexpr inline Algorithm::Id CnAlgo<Algorithm::CN_CACHE_HASH>::base() const           { return Algorithm::CN_0; }
+template<> constexpr inline Algorithm::Id CnAlgo<Algorithm::CN_CACHE_HASH>::base() const    { return Algorithm::CN_0; }
 template<> constexpr inline Algorithm::Id CnAlgo<Algorithm::CN_1>::base() const             { return Algorithm::CN_1; }
 template<> constexpr inline Algorithm::Id CnAlgo<Algorithm::CN_FAST>::base() const          { return Algorithm::CN_1; }
 template<> constexpr inline Algorithm::Id CnAlgo<Algorithm::CN_RTO>::base() const           { return Algorithm::CN_1; }
