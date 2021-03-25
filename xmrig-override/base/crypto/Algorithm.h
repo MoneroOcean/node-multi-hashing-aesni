@@ -65,6 +65,7 @@ public:
         CN_PICO_0,     // "cn-pico"          CryptoNight-Pico
         CN_PICO_TLO,   // "cn-pico/tlo"      CryptoNight-Pico (TLO)
         CN_CCX,        // "cn/ccx"           Conceal (CCX)
+        CN_CACHE_HASH, // "cn/cache_hash"    Cache (CXCHE)
         CN_GPU,        // "cn/gpu"           CryptoNight-GPU (Ryo).
         // CryptoNight variants must be above this line
         // (index of RX_0 is used in loops as "end of all CN families" marker)
